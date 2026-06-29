@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 40" role="img" aria-label="Europabank">
+  <!--
+    PLACEHOLDER-WORDMARK voor Europabank.
+    Vervang dit bestand door het officiële logo (zelfde bestandsnaam, of pas het
+    pad aan in config/branding.ts -> logo.src). Kleuren volgen de huisstijl:
+    geel #FCE400, zwart #333333.
+  -->
+  <rect x="0" y="6" width="28" height="28" rx="6" fill="#FCE400"/>
+  <text x="14" y="29" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#333333" text-anchor="middle">e</text>
+  <text x="38" y="29" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#333333">europabank</text>
+</svg>
