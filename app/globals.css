@@ -45,6 +45,22 @@ body {
   outline-offset: 2px;
 }
 
+/* Sectiekoppen in kaarten krijgen een geel accentstreepje (eigen look Tool 2). */
+.eb-card h2 {
+  position: relative;
+  padding-left: 14px;
+}
+.eb-card h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 4px;
+  border-radius: 2px;
+  background-color: var(--eb-primary);
+}
+
 /* --- Herbruikbare klassen ------------------------------------------------- */
 .eb-card {
   background-color: var(--eb-bg);

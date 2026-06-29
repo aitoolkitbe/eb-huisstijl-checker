@@ -100,39 +100,32 @@ export default function Page() {
 
   return (
     <div className="min-h-screen">
-      {/* Dunne merk-accentbar bovenaan */}
-      <div style={{ height: 4, backgroundColor: "var(--eb-primary)" }} />
-
-      {/* Header */}
-      <header
-        className="sticky top-0 z-10 border-b backdrop-blur"
-        style={{
-          borderColor: "var(--eb-border)",
-          backgroundColor: "rgba(255,255,255,0.85)",
-        }}
-      >
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-          <Logo />
-          <span
-            className="hidden text-xs font-medium sm:inline"
-            style={{ color: "var(--eb-muted)" }}
-          >
-            {uiText.app.title}
-          </span>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-3xl px-4 py-8">
-        {/* Titelblok */}
-        <div className="mb-7">
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+      {/* Donkere hero-kop met titel; gele accentlijn onderaan */}
+      <header style={{ backgroundColor: "var(--eb-ink)" }}>
+        <div className="mx-auto max-w-3xl px-4 pb-7 pt-5">
+          <div className="mb-6 flex items-center justify-between">
+            <Logo />
+            <span
+              className="text-[0.7rem] font-semibold uppercase tracking-widest"
+              style={{ color: "rgba(255,255,255,0.55)" }}
+            >
+              Europabank
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
             {uiText.app.title}
           </h1>
-          <p className="mt-2 max-w-xl text-sm" style={{ color: "var(--eb-muted)" }}>
+          <p
+            className="mt-2 max-w-xl text-sm"
+            style={{ color: "rgba(255,255,255,0.72)" }}
+          >
             {uiText.app.subtitle}
           </p>
         </div>
+        <div style={{ height: 3, backgroundColor: "var(--eb-primary)" }} />
+      </header>
 
+      <main className="mx-auto max-w-3xl px-4 py-8">
         {/* Stappen-indicator */}
         <Stepper hasResult={hasResult} hasRewrite={rewritten !== null} />
 
@@ -190,23 +183,24 @@ export default function Page() {
   );
 }
 
-/* --- Header-logo met robuuste fallback ----------------------------------- */
+/* --- Header-logo (lockup voor donkere kop) -------------------------------
+   De kop is donker, dus we tonen een gele 'e'-chip + een WITTE wordmark.
+   Heb je een logo dat geschikt is voor een donkere achtergrond? Plaats het in
+   /public en zet het pad in branding.logo.srcOnDark (zie config/branding.ts). */
 function Logo() {
   const [imgFailed, setImgFailed] = useState(false);
-  const showImage = branding.logo.src && !imgFailed;
-
-  if (showImage) {
+  const darkSrc = branding.logo.srcOnDark;
+  if (darkSrc && !imgFailed) {
     // eslint-disable-next-line @next/next/no-img-element
     return (
       <img
-        src={branding.logo.src}
+        src={darkSrc}
         alt={branding.logo.alt}
         style={{ height: branding.logo.height, width: "auto" }}
         onError={() => setImgFailed(true)}
       />
     );
   }
-  // Fallback: nette tekstbadge als er (nog) geen geldig logobestand is.
   return (
     <span className="inline-flex items-center gap-2" aria-label={branding.logo.alt}>
       <span
@@ -218,7 +212,7 @@ function Logo() {
       >
         e
       </span>
-      <span className="text-lg font-bold tracking-tight">
+      <span className="text-lg font-bold tracking-tight text-white">
         {branding.logo.fallbackText}
       </span>
     </span>
@@ -236,7 +230,7 @@ function Stepper({
   const steps = [
     { n: 1, label: "Aanleveren", done: true },
     { n: 2, label: "Score", done: hasResult },
-    { n: 3, label: "Aandachtspunten", done: hasResult },
+    { n: 3, label: "Verbeterpunten", done: hasResult },
     { n: 4, label: "Verbeteren", done: hasRewrite },
   ];
   return (

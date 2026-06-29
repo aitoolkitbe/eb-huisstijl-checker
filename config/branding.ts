@@ -54,7 +54,11 @@ export const branding = {
   // Pad naar het logobestand in /public. Vervang het bestand of dit pad om
   // het logo te wisselen. Laat 'src' leeg ("") om enkel de tekstnaam te tonen.
   logo: {
-    src: "/logo-europabank.svg", // plaats je logo als /public/logo-europabank.svg
+    src: "/logo-europabank.svg", // logo voor lichte achtergrond (in /public)
+    // Logo voor de DONKERE kop van deze tool. Plaats bv. een witte versie als
+    // /public/logo-europabank-wit.svg en zet hier het pad. Laat leeg ("") om de
+    // ingebouwde tekst-lockup (gele 'e' + witte naam) te tonen.
+    srcOnDark: "",
     alt: "Europabank",
     // Toont deze tekst als er (nog) geen logobestand is.
     fallbackText: "Europabank",
