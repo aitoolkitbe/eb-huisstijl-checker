@@ -4,17 +4,17 @@
 
 /* ===========================================================================
    Basisstijl + design tokens.
-   Kleuren en font komen uit CSS-variabelen die layout.tsx uit
-   /config/branding.ts zet. Hier staan enkel afgeleide ontwerptokens
-   (radius, schaduw, afgeleide tinten) en herbruikbare component-klassen.
+   Kleuren en fonts komen uit CSS-variabelen die layout.tsx uit
+   /config/branding.ts zet. Hier staan enkel afgeleide ontwerptokens en
+   herbruikbare component-klassen, conform de stylesheet van het
+   brandingbureau (scherpe hoeken, uppercase knoppen, minimale schaduw).
    =========================================================================== */
 :root {
   color-scheme: light; /* tool blijft altijd licht, ongeacht de systeeminstelling */
-  --eb-radius: 14px;
-  --eb-radius-sm: 10px;
-  --eb-shadow-sm: 0 1px 2px rgba(17, 17, 17, 0.04), 0 1px 3px rgba(17, 17, 17, 0.05);
-  --eb-shadow-md: 0 4px 12px rgba(17, 17, 17, 0.05), 0 2px 4px rgba(17, 17, 17, 0.04);
-  --eb-shadow-lg: 0 12px 32px rgba(17, 17, 17, 0.08);
+  --eb-radius: 0px; /* de huisstijl gebruikt scherpe hoeken */
+  --eb-radius-sm: 0px;
+  --eb-radius-badge: 2px; /* enige uitzondering: badges/pills krijgen 2px */
+  --eb-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.08); /* hover-schaduw op kaarten */
   /* Zuiver witte paginakleur — zakelijk, financiële sector. */
   --eb-page: #ffffff;
 }
@@ -45,7 +45,16 @@ body {
   outline-offset: 2px;
 }
 
-/* Sectiekoppen in kaarten krijgen een geel accentstreepje (eigen look Tool 2). */
+/* Overline-stijl uit de huisstijl: micro-kop in kapitalen. */
+.eb-overline {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--eb-muted);
+}
+
+/* Sectiekoppen in kaarten krijgen een geel accentstreepje (scherpe hoeken). */
 .eb-card h2 {
   position: relative;
   padding-left: 14px;
@@ -57,7 +66,6 @@ body {
   top: 0.15em;
   bottom: 0.15em;
   width: 4px;
-  border-radius: 2px;
   background-color: var(--eb-primary);
 }
 
@@ -66,24 +74,32 @@ body {
   background-color: var(--eb-bg);
   border: 1px solid var(--eb-border);
   border-radius: var(--eb-radius);
-  box-shadow: var(--eb-shadow-sm);
+  transition: box-shadow 0.2s;
+}
+.eb-card:hover {
+  box-shadow: var(--eb-shadow-hover);
 }
 
+/* Knoppen volgens de huisstijl: uppercase, 13px, vet, scherpe hoeken. */
 .eb-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  border-radius: var(--eb-radius-sm);
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 0.7rem 1.25rem;
-  transition: transform 0.04s ease, box-shadow 0.15s ease, background-color 0.15s ease,
-    opacity 0.15s ease;
+  gap: 8px;
+  height: 44px;
+  padding: 0 24px;
+  border: none;
+  border-radius: var(--eb-radius);
+  font-family: var(--eb-font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: opacity 0.15s;
   cursor: pointer;
 }
-.eb-btn:active {
-  transform: translateY(1px);
+.eb-btn:not(:disabled):hover {
+  opacity: 0.9;
 }
 .eb-btn:disabled {
   cursor: not-allowed;
@@ -93,20 +109,42 @@ body {
 .eb-btn-primary {
   background-color: var(--eb-primary);
   color: var(--eb-primary-text);
-  box-shadow: var(--eb-shadow-sm);
-}
-.eb-btn-primary:not(:disabled):hover {
-  box-shadow: var(--eb-shadow-md);
-  filter: brightness(0.96);
 }
 
+/* 'Ghost' = outline-variant uit de stylesheet (transparant + fijne rand). */
 .eb-btn-ghost {
   background-color: transparent;
   color: var(--eb-ink);
   border: 1px solid var(--eb-border);
 }
 .eb-btn-ghost:not(:disabled):hover {
+  opacity: 1;
   background-color: var(--eb-surface);
+}
+
+/* Invoervelden: focus met gele rand + gedimde gele glow (stylesheet). */
+.eb-input {
+  border: 1px solid var(--eb-border);
+  border-radius: var(--eb-radius);
+  background-color: var(--eb-bg);
+  color: var(--eb-ink);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.eb-input:focus {
+  outline: none;
+  border-color: var(--eb-primary);
+  box-shadow: 0 0 0 3px var(--eb-primary-dim);
+}
+
+/* Meldingen: 1px rand + 3px linkerrand (stylesheet .alert). */
+.eb-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: var(--eb-radius);
+  border: 1px solid;
+  border-left-width: 3px;
 }
 
 /* Eenvoudige spinner voor laadtoestanden. */

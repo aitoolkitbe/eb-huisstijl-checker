@@ -15,12 +15,15 @@ export const metadata: Metadata = {
  */
 const cssVars = {
   "--eb-primary": branding.colors.primary,
+  "--eb-primary-dim": branding.colors.primaryDim,
   "--eb-primary-text": branding.colors.primaryText,
   "--eb-ink": branding.colors.ink,
   "--eb-bg": branding.colors.background,
   "--eb-surface": branding.colors.surface,
   "--eb-border": branding.colors.border,
+  "--eb-border-dim": branding.colors.borderDim,
   "--eb-muted": branding.colors.muted,
+  "--eb-neutral": branding.colors.neutral,
   "--eb-sev-hoog": branding.colors.severity.hoog,
   "--eb-sev-middel": branding.colors.severity.middel,
   "--eb-sev-laag": branding.colors.severity.laag,
@@ -29,6 +32,7 @@ const cssVars = {
   "--eb-score-caution": branding.colors.score.caution,
   "--eb-score-danger": branding.colors.score.danger,
   "--eb-font": branding.fonts.fontFamily,
+  "--eb-font-body": branding.fonts.fontBody,
 } as React.CSSProperties;
 
 export default function RootLayout({

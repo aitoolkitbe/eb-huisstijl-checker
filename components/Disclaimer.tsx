@@ -13,10 +13,11 @@ export default function Disclaimer() {
     <section
       role="note"
       aria-label={d.title}
-      className="overflow-hidden rounded-xl border-l-4"
+      className="overflow-hidden border"
       style={{
-        borderColor: "var(--eb-primary)",
-        backgroundColor: "#FFFBE6",
+        borderColor: "rgba(252, 228, 0, 0.5)",
+        borderLeft: "3px solid var(--eb-primary)",
+        backgroundColor: "rgba(252, 228, 0, 0.12)",
       }}
     >
       <button

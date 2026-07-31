@@ -38,7 +38,7 @@ export default function FindingsList({
       <section aria-label={t.heading} className="eb-card p-5 sm:p-6">
         <h2 className="mb-2 text-base font-semibold">{t.heading}</h2>
         <div
-          className="flex items-center gap-3 rounded-xl p-4 text-sm"
+          className="flex items-center gap-3 p-4 text-sm"
           style={{ backgroundColor: "var(--eb-surface)", color: "var(--eb-muted)" }}
         >
           <CheckCircle2 size={20} aria-hidden style={{ color: "var(--eb-score-positive)" }} />
@@ -63,14 +63,14 @@ export default function FindingsList({
         <div className="flex items-center gap-2 text-xs">
           <button
             onClick={onSelectAll}
-            className="rounded-md px-2 py-1 font-medium transition-colors hover:underline"
+            className="px-2 py-1 font-medium transition-colors hover:underline"
           >
             {t.selectAll}
           </button>
           <span style={{ color: "var(--eb-border)" }}>|</span>
           <button
             onClick={onDeselectAll}
-            className="rounded-md px-2 py-1 font-medium transition-colors hover:underline"
+            className="px-2 py-1 font-medium transition-colors hover:underline"
           >
             {t.deselectAll}
           </button>
@@ -88,7 +88,7 @@ export default function FindingsList({
           return (
             <li
               key={f.id}
-              className="overflow-hidden rounded-xl border transition-shadow"
+              className="overflow-hidden border transition-shadow"
               style={{
                 borderColor: "var(--eb-border)",
                 borderLeft: `4px solid ${accent}`,
@@ -151,13 +151,18 @@ function Badge({
 }) {
   return (
     <span
-      className="rounded-full px-2.5 py-0.5 text-xs font-semibold"
-      style={
-        outline
-          ? { border: `1px solid ${color}`, color }
-          : { backgroundColor: color, color: "#fff" }
-      }
+      className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide"
+      style={{
+        borderRadius: "var(--eb-radius-badge)",
+        border: `1px solid ${color}`,
+        color,
+        backgroundColor: outline ? "var(--eb-surface)" : "color-mix(in srgb, currentColor 8%, transparent)",
+      }}
     >
+      <span
+        aria-hidden
+        style={{ width: 6, height: 6, backgroundColor: "currentColor", flexShrink: 0 }}
+      />
       {text}
     </span>
   );
@@ -188,7 +193,7 @@ function Row({
           highlight
             ? {
                 backgroundColor: "var(--eb-surface)",
-                borderRadius: 8,
+                borderRadius: 0,
                 padding: "6px 10px",
                 marginTop: 2,
               }

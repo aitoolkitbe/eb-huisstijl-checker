@@ -75,10 +75,12 @@ export default function ResultPanel({
             {t.intro}
           </p>
           <div
-            className="max-h-[28rem] overflow-auto whitespace-pre-wrap rounded-xl border p-4 text-sm leading-relaxed"
+            className="max-h-[28rem] overflow-auto whitespace-pre-wrap border p-4 text-sm leading-relaxed"
             style={{
               borderColor: "var(--eb-border)",
               backgroundColor: "var(--eb-surface)",
+              fontFamily: "var(--eb-font-body)",
+              lineHeight: 1.7,
             }}
           >
             {rewritten}

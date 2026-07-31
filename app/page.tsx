@@ -100,30 +100,45 @@ export default function Page() {
 
   return (
     <div className="min-h-screen">
-      {/* Donkere hero-kop met titel; gele accentlijn onderaan */}
-      <header style={{ backgroundColor: "var(--eb-ink)" }}>
-        <div className="mx-auto max-w-3xl px-4 pb-7 pt-5">
-          <div className="mb-6 flex items-center justify-between">
+      {/* Gele accentbalk + lichte sticky kop, conform de bureau-stylesheet */}
+      <div style={{ height: 4, backgroundColor: "var(--eb-primary)" }} />
+      <header
+        className="sticky top-0 z-50"
+        style={{
+          backgroundColor: "var(--eb-bg)",
+          borderBottom: "1px solid var(--eb-border)",
+          height: 64,
+        }}
+      >
+        <div className="mx-auto flex h-full max-w-3xl items-center justify-between px-4">
+          <div className="flex items-center gap-4">
             <Logo />
             <span
-              className="text-[0.7rem] font-semibold uppercase tracking-widest"
-              style={{ color: "rgba(255,255,255,0.55)" }}
-            >
-              Europabank
+              aria-hidden
+              style={{ width: 1, height: 28, backgroundColor: "var(--eb-border)" }}
+            />
+            <span className="text-[15px] font-bold" style={{ color: "var(--eb-ink)" }}>
+              {uiText.app.title}
             </span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        </div>
+      </header>
+
+      {/* Introsectie op wit, met overline zoals in de huisstijl */}
+      <section style={{ borderBottom: "1px solid var(--eb-border-dim)" }}>
+        <div className="mx-auto max-w-3xl px-4 pb-8 pt-9">
+          <p className="eb-overline">Welkom bij Europabank</p>
+          <h1
+            className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl"
+            style={{ color: "var(--eb-ink)", letterSpacing: "-0.02em" }}
+          >
             {uiText.app.title}
           </h1>
-          <p
-            className="mt-2 max-w-xl text-sm"
-            style={{ color: "rgba(255,255,255,0.72)" }}
-          >
+          <p className="mt-3 max-w-xl text-sm" style={{ color: "var(--eb-muted)" }}>
             {uiText.app.subtitle}
           </p>
         </div>
-        <div style={{ height: 3, backgroundColor: "var(--eb-primary)" }} />
-      </header>
+      </section>
 
       <main className="mx-auto max-w-3xl px-4 py-8">
         {/* Stappen-indicator */}
@@ -137,10 +152,11 @@ export default function Page() {
           {error && (
             <div
               role="alert"
-              className="eb-fade-in flex items-start gap-3 rounded-xl border-l-4 p-4 text-sm"
+              className="eb-alert eb-fade-in text-sm"
               style={{
-                borderColor: "var(--eb-sev-hoog)",
-                backgroundColor: "#FCEDED",
+                borderColor: "rgba(192, 57, 43, 0.25)",
+                borderLeftColor: "var(--eb-sev-hoog)",
+                backgroundColor: "rgba(192, 57, 43, 0.07)",
                 color: "var(--eb-sev-hoog)",
               }}
             >
@@ -183,18 +199,18 @@ export default function Page() {
   );
 }
 
-/* --- Header-logo (lockup voor donkere kop) -------------------------------
-   De kop is donker, dus we tonen een gele 'e'-chip + een WITTE wordmark.
-   Heb je een logo dat geschikt is voor een donkere achtergrond? Plaats het in
-   /public en zet het pad in branding.logo.srcOnDark (zie config/branding.ts). */
+/* --- Header-logo (lichte kop) --------------------------------------------
+   De kop is wit, dus we tonen het gewone logo uit branding.logo.src.
+   Ontbreekt het bestand, dan valt de lockup terug op een gele 'e'-chip
+   (scherpe hoeken) + de merknaam in inktkleur. */
 function Logo() {
   const [imgFailed, setImgFailed] = useState(false);
-  const darkSrc = branding.logo.srcOnDark;
-  if (darkSrc && !imgFailed) {
+  const src = branding.logo.src;
+  if (src && !imgFailed) {
     // eslint-disable-next-line @next/next/no-img-element
     return (
       <img
-        src={darkSrc}
+        src={src}
         alt={branding.logo.alt}
         style={{ height: branding.logo.height, width: "auto" }}
         onError={() => setImgFailed(true)}
@@ -204,7 +220,7 @@ function Logo() {
   return (
     <span className="inline-flex items-center gap-2" aria-label={branding.logo.alt}>
       <span
-        className="flex h-7 w-7 items-center justify-center rounded-md text-sm font-bold"
+        className="flex h-7 w-7 items-center justify-center text-sm font-bold"
         style={{
           backgroundColor: "var(--eb-primary)",
           color: "var(--eb-primary-text)",
@@ -212,7 +228,7 @@ function Logo() {
       >
         e
       </span>
-      <span className="text-lg font-bold tracking-tight text-white">
+      <span className="text-lg font-bold tracking-tight" style={{ color: "var(--eb-ink)" }}>
         {branding.logo.fallbackText}
       </span>
     </span>
@@ -238,7 +254,7 @@ function Stepper({
       {steps.map((s, i) => (
         <li key={s.n} className="flex flex-1 items-center gap-2">
           <span
-            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors"
+            className="flex h-6 w-6 shrink-0 items-center justify-center text-xs font-bold transition-colors"
             style={{
               backgroundColor: s.done ? "var(--eb-primary)" : "var(--eb-surface)",
               color: s.done ? "var(--eb-primary-text)" : "var(--eb-muted)",

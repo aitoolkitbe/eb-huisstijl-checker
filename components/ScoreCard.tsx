@@ -77,8 +77,12 @@ export default function ScoreCard({
         {/* Duiding */}
         <div className="text-center sm:text-left">
           <span
-            className="inline-block rounded-full px-3 py-1 text-xs font-semibold"
-            style={{ backgroundColor: `${"var(--eb-surface)"}`, color }}
+            className="inline-block px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
+            style={{
+              borderRadius: "var(--eb-radius-badge)",
+              backgroundColor: "var(--eb-surface)",
+              color,
+            }}
           >
             {levelLabel}
           </span>

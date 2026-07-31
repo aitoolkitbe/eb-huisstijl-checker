@@ -69,7 +69,7 @@ export default function InputPanel({ loading, onAnalyze }: Props) {
       <div
         role="tablist"
         aria-label={t.heading}
-        className="mb-5 grid grid-cols-3 gap-1 rounded-xl p-1"
+        className="mb-5 grid grid-cols-3 gap-1 p-1"
         style={{ backgroundColor: "var(--eb-surface)" }}
       >
         {tabs.map((tab) => {
@@ -80,11 +80,11 @@ export default function InputPanel({ loading, onAnalyze }: Props) {
               role="tab"
               aria-selected={active}
               onClick={() => setMode(tab.key)}
-              className="flex items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-sm font-medium transition-all"
+              className="flex items-center justify-center gap-1.5 px-2 py-2 text-sm font-medium transition-all"
               style={{
                 backgroundColor: active ? "var(--eb-bg)" : "transparent",
                 color: active ? "var(--eb-ink)" : "var(--eb-muted)",
-                boxShadow: active ? "var(--eb-shadow-sm)" : "none",
+                border: active ? "1px solid var(--eb-border)" : "1px solid transparent",
               }}
             >
               <tab.Icon size={16} aria-hidden />
@@ -103,8 +103,7 @@ export default function InputPanel({ loading, onAnalyze }: Props) {
             onChange={(e) => setText(e.target.value)}
             placeholder={t.pastePlaceholder}
             rows={9}
-            className="w-full resize-y rounded-xl border p-3.5 text-sm outline-none transition-colors"
-            style={{ borderColor: "var(--eb-border)", backgroundColor: "var(--eb-bg)" }}
+            className="eb-input w-full resize-y p-3.5 text-sm"
           />
           <p className="mt-1.5 text-right text-xs" style={{ color: "var(--eb-muted)" }}>
             {text.length} {t.charCount}
@@ -120,8 +119,7 @@ export default function InputPanel({ loading, onAnalyze }: Props) {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder={t.urlPlaceholder}
-            className="w-full rounded-xl border p-3.5 text-sm outline-none"
-            style={{ borderColor: "var(--eb-border)", backgroundColor: "var(--eb-bg)" }}
+            className="eb-input w-full p-3.5 text-sm"
           />
           <p className="mt-1.5 text-xs" style={{ color: "var(--eb-muted)" }}>
             {t.urlHint}
@@ -140,7 +138,7 @@ export default function InputPanel({ loading, onAnalyze }: Props) {
             }}
             onDragLeave={() => setDragOver(false)}
             onDrop={onDrop}
-            className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-9 text-center transition-colors"
+            className="flex w-full flex-col items-center justify-center gap-2 border-2 border-dashed px-4 py-9 text-center transition-colors"
             style={{
               borderColor: dragOver ? "var(--eb-ink)" : "var(--eb-border)",
               backgroundColor: dragOver ? "var(--eb-surface)" : "var(--eb-bg)",
