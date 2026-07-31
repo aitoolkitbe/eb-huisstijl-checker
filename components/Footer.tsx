@@ -1,5 +1,6 @@
-/** Footer volgens de bureau-stylesheet: tekst links, logo rechts. */
+/** Footer volgens de bureau-stylesheet: tekst links, merk-lockup rechts. */
 import { branding } from "@/config/branding";
+import BrandLockup from "@/components/BrandLockup";
 
 export default function Footer() {
   return (
@@ -13,14 +14,9 @@ export default function Footer() {
         ) : null}
         <p>{branding.footer.text}</p>
       </div>
-      {branding.logo.src ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={branding.logo.src}
-          alt={branding.logo.alt}
-          style={{ height: 28, width: "auto", opacity: 0.6 }}
-        />
-      ) : null}
+      <span style={{ opacity: 0.6 }}>
+        <BrandLockup size={18} />
+      </span>
     </footer>
   );
 }

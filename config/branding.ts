@@ -61,7 +61,11 @@ export const branding = {
   // Pad naar het logobestand in /public. Vervang het bestand of dit pad om
   // het logo te wisselen. Laat 'src' leeg ("") om enkel de tekstnaam te tonen.
   logo: {
-    src: "/logo-europabank.svg", // logo voor lichte achtergrond (in /public)
+    // Standaard toont de tool de merk-lockup uit de bureau-stylesheet
+    // (geel vierkant met donkere rand + wordmark, zie components/BrandLockup.tsx).
+    // Is er een officieel logobestand? Plaats het in /public en zet hier het pad
+    // (bv. "/europabank-logo.jpg" of "/logo-europabank.svg"); dat krijgt voorrang.
+    src: "",
     alt: "Europabank",
     // Toont deze tekst als er (nog) geen logobestand is.
     fallbackText: "Europabank",

@@ -15,8 +15,8 @@
   --eb-radius-sm: 0px;
   --eb-radius-badge: 2px; /* enige uitzondering: badges/pills krijgen 2px */
   --eb-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.08); /* hover-schaduw op kaarten */
-  /* Zuiver witte paginakleur — zakelijk, financiële sector. */
-  --eb-page: #ffffff;
+  /* Lichtgrijze paginakleur uit de bureau-preview; panelen/kaarten blijven wit. */
+  --eb-page: #f2f2f2;
 }
 
 /* Forceer de lichte weergave, ook als het systeem in donkere modus staat. */

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { AlertCircle } from "lucide-react";
-import { branding } from "@/config/branding";
 import { uiText } from "@/config/ui-text";
 import type { Finding, ScoredAnalysis } from "@/lib/types";
+import BrandLockup from "@/components/BrandLockup";
 import Disclaimer from "@/components/Disclaimer";
 import Footer from "@/components/Footer";
 import InputPanel from "@/components/InputPanel";
@@ -100,45 +100,60 @@ export default function Page() {
 
   return (
     <div className="min-h-screen">
-      {/* Gele accentbalk + lichte sticky kop, conform de bureau-stylesheet */}
-      <div style={{ height: 4, backgroundColor: "var(--eb-primary)" }} />
+      {/* Gele merkbalk + lichte sticky kop, conform de bureau-preview */}
+      <div style={{ height: 5, backgroundColor: "var(--eb-primary)" }} />
       <header
         className="sticky top-0 z-50"
         style={{
           backgroundColor: "var(--eb-bg)",
-          borderBottom: "1px solid var(--eb-border)",
-          height: 64,
+          borderBottom: "1px solid var(--eb-border-dim)",
+          height: 72,
         }}
       >
-        <div className="mx-auto flex h-full max-w-3xl items-center justify-between px-4">
-          <div className="flex items-center gap-4">
-            <Logo />
+        <div className="mx-auto flex h-full max-w-3xl items-center justify-between gap-6 px-4">
+          <div className="flex min-w-0 items-center gap-4">
+            <BrandLockup />
             <span
               aria-hidden
               style={{ width: 1, height: 28, backgroundColor: "var(--eb-border)" }}
             />
-            <span className="text-[15px] font-bold" style={{ color: "var(--eb-ink)" }}>
+            <span
+              className="whitespace-nowrap text-sm font-bold"
+              style={{ color: "var(--eb-muted)" }}
+            >
               {uiText.app.title}
             </span>
           </div>
         </div>
       </header>
 
-      {/* Introsectie op wit, met overline zoals in de huisstijl */}
-      <section style={{ borderBottom: "1px solid var(--eb-border-dim)" }}>
-        <div className="mx-auto max-w-3xl px-4 pb-8 pt-9">
+      {/* Intropaneel: wit paneel op grijze pagina, met gele accentbalk (preview .intro) */}
+      <div className="mx-auto max-w-3xl px-4 pt-8">
+        <section
+          className="relative overflow-hidden"
+          style={{
+            backgroundColor: "var(--eb-bg)",
+            border: "1px solid var(--eb-border-dim)",
+            padding: "40px 36px",
+          }}
+        >
+          <div
+            aria-hidden
+            className="absolute left-0 top-0 w-full"
+            style={{ height: 6, backgroundColor: "var(--eb-primary)" }}
+          />
           <p className="eb-overline">Welkom bij Europabank</p>
           <h1
-            className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl"
-            style={{ color: "var(--eb-ink)", letterSpacing: "-0.02em" }}
+            className="mt-2 text-3xl font-extrabold sm:text-4xl"
+            style={{ color: "var(--eb-ink)", letterSpacing: "-0.02em", lineHeight: 1.1 }}
           >
             {uiText.app.title}
           </h1>
           <p className="mt-3 max-w-xl text-sm" style={{ color: "var(--eb-muted)" }}>
             {uiText.app.subtitle}
           </p>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <main className="mx-auto max-w-3xl px-4 py-8">
         {/* Stappen-indicator */}
@@ -196,42 +211,6 @@ export default function Page() {
         <Footer />
       </main>
     </div>
-  );
-}
-
-/* --- Header-logo (lichte kop) --------------------------------------------
-   De kop is wit, dus we tonen het gewone logo uit branding.logo.src.
-   Ontbreekt het bestand, dan valt de lockup terug op een gele 'e'-chip
-   (scherpe hoeken) + de merknaam in inktkleur. */
-function Logo() {
-  const [imgFailed, setImgFailed] = useState(false);
-  const src = branding.logo.src;
-  if (src && !imgFailed) {
-    // eslint-disable-next-line @next/next/no-img-element
-    return (
-      <img
-        src={src}
-        alt={branding.logo.alt}
-        style={{ height: branding.logo.height, width: "auto" }}
-        onError={() => setImgFailed(true)}
-      />
-    );
-  }
-  return (
-    <span className="inline-flex items-center gap-2" aria-label={branding.logo.alt}>
-      <span
-        className="flex h-7 w-7 items-center justify-center text-sm font-bold"
-        style={{
-          backgroundColor: "var(--eb-primary)",
-          color: "var(--eb-primary-text)",
-        }}
-      >
-        e
-      </span>
-      <span className="text-lg font-bold tracking-tight" style={{ color: "var(--eb-ink)" }}>
-        {branding.logo.fallbackText}
-      </span>
-    </span>
   );
 }
 
