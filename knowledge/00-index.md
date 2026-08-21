@@ -22,13 +22,24 @@ toetst aangeleverde content tegen deze stijlregels.
 | Bestand | Thema |
 |---|---|
 | `tone-of-voice.md` | Kernprincipes van de toon |
-| `aanspreking-en-stem.md` | 'u'-vorm, warm en actief, mensentaal |
+| `aanspreking-en-stem.md` | 'u'-vorm ('je' bij jongeren), zij/haar, warm en actief |
 | `titel.md` | Titelregels en richtlengte |
 | `structuur-en-opbouw.md` | Belofte → Bewijs → Advies, CTA |
 | `scanbaarheid-en-typografie.md` | Alinea-/zinsnormen, bullets, quotes |
 | `verboden-constructies.md` | Wat de huisstijl vermijdt |
+| `spreektaal-woordenlijst.md` | Verouderde woorden → spreektaal-alternatieven |
+| `merkspecifieke-spelling.md` | Europabank, eb online, E-broker, pakketten, klanten |
+| `getallen-bedragen-notatie.md` | Bedragen, getallen, data, telefoonnummers |
+| `terugverwijzingen.md` | 'die/dat' i.p.v. 'dit/deze' |
+| `begroeting-en-afsluiting.md` | Aanhef, onderwerp, slotformules (mails/brieven) |
+| `hoofdletters-en-afkortingen.md` | Organen klein, afkortingen klein |
+| `werkwoordspelling-dt.md` | dt-fouten en moeilijke werkwoorden |
 | `beeldtaal.md` | Beeldrichtlijnen (alleen bij beeldcontent) |
 | `voorbeelden.md` | Concrete voor/na-cases |
+
+> Bronnen: de tone-of-voice-documenten van June20/Cards én de **Schrijfstijlgids
+> Europabank (versie maart 2025)**. Bij een update van een van beide documenten
+> pas je de betrokken bestanden hier aan.
 
 > De map `_archive_tool1/` bevat oude bestanden van Tool 1 en wordt **niet**
 > ingeladen. Je mag die map negeren of verwijderen.

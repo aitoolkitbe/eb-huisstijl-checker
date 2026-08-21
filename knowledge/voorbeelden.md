@@ -13,10 +13,10 @@ status: actief
 
 ## Spreek de lezer rechtstreeks toe
 In plaats van veel over "de klant" te praten, spreekt u de gebruiker
-rechtstreeks aan. Scanbare elementen als "Hoe het werkt?" en "Wat heeft u
+rechtstreeks aan. Scanbare elementen als "Hoe het werkt?" en "Wat hebt u
 nodig?" helpen de lezer.
 
-- ✅ "Uw smartphone wordt uw betaalterminal. Met SoftPOS verandert u uw smartphone makkelijk in een volwaardig betaalpunt. Geen extra hardware nodig, uw eigen toestel volstaat. Hoe het werkt? U tikt het bedrag in … Wat heeft u nodig? …"
+- ✅ "Uw smartphone wordt uw betaalterminal. Met SoftPOS verandert u uw smartphone makkelijk in een volwaardig betaalpunt. Geen extra hardware nodig, uw eigen toestel volstaat. Hoe het werkt? U tikt het bedrag in … Wat hebt u nodig? …"
 
 ## Tussentitels op het probleem, personages in de tekst
 Spreek in de titel de lezer aan; introduceer personages via gehighlighte

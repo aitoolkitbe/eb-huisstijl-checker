@@ -2,7 +2,7 @@
 titel: "Tone of voice — kernprincipes"
 thema: tone-of-voice
 type: stijlregel
-bron: "Europabank x Cards — Algemene tone of voice (June20)"
+bron: "Europabank x Cards — Algemene tone of voice (June20) + Schrijfstijlgids (maart 2025), Inleiding"
 status: actief
 ---
 
@@ -29,4 +29,4 @@ beoordeling van toon en woordkeuze.
 
 ## Voorbeeld
 - ❌ Bank centraal, verkopend: "Europabank biedt talrijke producten aan die u kunt aankopen."
-- ✅ Klant centraal, helpend: "U heeft een plan. Wij helpen u om het waar te maken."
+- ✅ Klant centraal, helpend: "U hebt een plan. Wij helpen u om het waar te maken."
