@@ -10,7 +10,13 @@
 import { useState } from "react";
 import { branding } from "@/config/branding";
 
-export default function BrandLockup({ size = 24 }: { size?: number }) {
+export default function BrandLockup({
+  size = 24,
+  height,
+}: {
+  size?: number; // grootte van het CSS-merkteken (fallback)
+  height?: number; // hoogte van het logobestand; standaard branding.logo.height
+}) {
   const [imgFailed, setImgFailed] = useState(false);
   const src = branding.logo.src;
 
@@ -20,7 +26,7 @@ export default function BrandLockup({ size = 24 }: { size?: number }) {
       <img
         src={src}
         alt={branding.logo.alt}
-        style={{ height: branding.logo.height, width: "auto" }}
+        style={{ height: height ?? branding.logo.height, width: "auto", display: "block" }}
         onError={() => setImgFailed(true)}
       />
     );

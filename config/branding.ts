@@ -61,15 +61,14 @@ export const branding = {
   // Pad naar het logobestand in /public. Vervang het bestand of dit pad om
   // het logo te wisselen. Laat 'src' leeg ("") om enkel de tekstnaam te tonen.
   logo: {
-    // Standaard toont de tool de merk-lockup uit de bureau-stylesheet
-    // (geel vierkant met donkere rand + wordmark, zie components/BrandLockup.tsx).
-    // Is er een officieel logobestand? Plaats het in /public en zet hier het pad
-    // (bv. "/europabank-logo.jpg" of "/logo-europabank.svg"); dat krijgt voorrang.
-    src: "",
-    alt: "Europabank",
-    // Toont deze tekst als er (nog) geen logobestand is.
+    // Officieel Europabank-logo mét baseline "De bank die durft." (SVG,
+    // aangeleverd door Europabank). Staat in /public. Zet src op "" om terug
+    // te vallen op de CSS-lockup uit de bureau-stylesheet
+    // (components/BrandLockup.tsx) — handig als het bestand ooit ontbreekt.
+    src: "/europabank-logo-baseline.svg",
+    alt: "Europabank — De bank die durft.",
     fallbackText: "Europabank",
-    height: 32, // hoogte in pixels
+    height: 44, // hoogte in pixels in de header; het logo is ca. 4:1 (±176px breed)
   },
 
   // --- Fonts ---------------------------------------------------------------
@@ -86,8 +85,9 @@ export const branding = {
   // Footervermelding volgens de bureau-stylesheet. Pas de tekst hier aan.
   footer: {
     text: "Dashboard by June20 & De Content Studio",
-    // Optionele baseline van het merk; laat leeg ("") om te verbergen.
-    baseline: "De bank die durft.",
+    // Optionele baseline als tekstregel. Staat leeg omdat het officiële logo
+    // de baseline "De bank die durft." al bevat; vul in om ze extra te tonen.
+    baseline: "",
   },
 } as const;
 

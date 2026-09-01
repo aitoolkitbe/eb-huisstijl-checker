@@ -15,7 +15,7 @@ export default function Footer() {
         <p>{branding.footer.text}</p>
       </div>
       <span style={{ opacity: 0.6 }}>
-        <BrandLockup size={18} />
+        <BrandLockup size={18} height={32} />
       </span>
     </footer>
   );
