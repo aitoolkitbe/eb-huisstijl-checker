@@ -84,7 +84,7 @@ export const branding = {
   // --- Footer --------------------------------------------------------------
   // Footervermelding volgens de bureau-stylesheet. Pas de tekst hier aan.
   footer: {
-    text: "Dashboard by June20 & De Content Studio",
+    text: "AI tool by De Content Studio x June20",
     // Optionele baseline als tekstregel. Staat leeg omdat het officiële logo
     // de baseline "De bank die durft." al bevat; vul in om ze extra te tonen.
     baseline: "",

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Europabank-merkteken: geel vlak met donkere rand + klein donker blok (cf. logo-lockup) -->
+  <rect x="5" y="5" width="46" height="46" fill="#FCE400" stroke="#333333" stroke-width="6"/>
+  <rect x="45" y="45" width="14" height="14" fill="#333333"/>
+</svg>

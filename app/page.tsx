@@ -107,22 +107,39 @@ export default function Page() {
         style={{
           backgroundColor: "var(--eb-bg)",
           borderBottom: "1px solid var(--eb-border-dim)",
-          height: 72,
         }}
       >
-        <div className="mx-auto flex h-full max-w-3xl items-center justify-between gap-6 px-4">
+        <div
+          className="mx-auto flex max-w-3xl items-center justify-between gap-6 px-4"
+          style={{ paddingTop: 25, paddingBottom: 25 }}
+        >
           <div className="flex min-w-0 items-center gap-4">
             <BrandLockup />
             <span
               aria-hidden
               style={{ width: 1, height: 28, backgroundColor: "var(--eb-border)" }}
             />
+            <div className="flex min-w-0 flex-col justify-center">
             <span
               className="whitespace-nowrap text-sm font-bold"
               style={{ color: "var(--eb-muted)" }}
             >
               {uiText.app.title}
             </span>
+            <span
+              className="whitespace-nowrap"
+              style={{
+                fontSize: 9,
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "var(--eb-neutral)",
+                marginTop: 2,
+              }}
+            >
+              AI tool by De Content Studio x June20
+            </span>
+          </div>
           </div>
         </div>
       </header>
@@ -142,9 +159,8 @@ export default function Page() {
             className="absolute left-0 top-0 w-full"
             style={{ height: 6, backgroundColor: "var(--eb-primary)" }}
           />
-          <p className="eb-overline">Welkom bij Europabank</p>
           <h1
-            className="mt-2 text-3xl font-extrabold sm:text-4xl"
+            className="text-3xl font-extrabold sm:text-4xl"
             style={{ color: "var(--eb-ink)", letterSpacing: "-0.02em", lineHeight: 1.1 }}
           >
             {uiText.app.title}
