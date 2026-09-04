@@ -7,7 +7,6 @@
  */
 
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
@@ -580,12 +579,6 @@ export default function OverPage() {
             <ArrowRight size={16} aria-hidden />
           </a>
         </section>
-
-        <p className="text-center text-xs" style={{ color: "var(--eb-muted)" }}>
-          <Link href="/" className="underline underline-offset-2">
-            Terug naar de tool
-          </Link>
-        </p>
 
         <Footer />
       </main>
