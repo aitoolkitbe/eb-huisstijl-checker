@@ -85,6 +85,12 @@ export const branding = {
   // Footervermelding volgens de bureau-stylesheet. Pas de tekst hier aan.
   footer: {
     text: "AI tool by De Content Studio x June20",
+    // Auteursvermelding na de tekst: "(c) <naam>", met link. Laat 'name' leeg
+    // om de vermelding te verbergen; laat 'url' leeg voor een naam zonder link.
+    credit: {
+      name: "Jef De Busser",
+      url: "https://www.linkedin.com/in/jefdebusser/",
+    },
     // Optionele baseline als tekstregel. Staat leeg omdat het officiële logo
     // de baseline "De bank die durft." al bevat; vul in om ze extra te tonen.
     baseline: "",
