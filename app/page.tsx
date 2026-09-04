@@ -142,6 +142,13 @@ export default function Page() {
             </span>
           </div>
           </div>
+          <a
+            href="/over"
+            className="whitespace-nowrap text-xs font-medium underline underline-offset-2"
+            style={{ color: "var(--eb-muted)" }}
+          >
+            Hoe werkt het?
+          </a>
         </div>
       </header>
 

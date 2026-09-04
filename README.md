@@ -73,6 +73,7 @@ API-key staat nooit in de client.
 europabank-huisstijl-checker/
 ├── app/
 │   ├── page.tsx                 # hoofdscherm (UI-orkestratie)
+│   ├── over/page.tsx            # uitlegpagina voor niet-technische lezers (/over)
 │   ├── layout.tsx · globals.css
 │   └── api/
 │       ├── analyze/route.ts     # content → score + verbeterpunten (JSON)

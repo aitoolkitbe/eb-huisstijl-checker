@@ -55,3 +55,21 @@ export function listKnowledgeFiles(): string[] {
     return [];
   }
 }
+
+/** Titel en type per kennisbestand (uit de frontmatter), voor de uitlegpagina. */
+export function listKnowledgeEntries(): { file: string; title: string; type: string }[] {
+  return listKnowledgeFiles().map((file) => {
+    let title = file.replace(/\.md$/, "");
+    let type = "stijlregel";
+    try {
+      const head = fs.readFileSync(path.join(KNOWLEDGE_DIR, file), "utf-8").slice(0, 600);
+      const t = head.match(/^titel:\s*"?(.+?)"?\s*$/m);
+      const ty = head.match(/^type:\s*"?(.+?)"?\s*$/m);
+      if (t) title = t[1];
+      if (ty) type = ty[1];
+    } catch {
+      /* fallback op bestandsnaam */
+    }
+    return { file, title, type };
+  });
+}

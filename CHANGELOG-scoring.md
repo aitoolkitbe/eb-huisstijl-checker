@@ -64,3 +64,17 @@ werd per voorkomen apart afgestraft.
   milderingsfactor.
 
 **Scorekaart**: toont "Beoordeeld voor: …".
+
+---
+
+# Update: uitlegpagina /over
+
+- Nieuwe pagina `app/over/page.tsx`, live op `/over` na deploy. Documentatie
+  voor niet-technische lezers: de vier stappen, wat de tool wel/niet doet,
+  opbouw (tekst + stijlboek + AI-model), het stijlboek, de checks met
+  voor/na-voorbeelden, de kanalen, de scoreformule met live berekende
+  voorbeelden, de vier niveaus, en een CTA naar de tool.
+- De pagina leest de echte config (stijlboek, kanalen, scoring): wijzigt de
+  config, dan wijzigt de pagina mee.
+- Link "Hoe werkt het?" in de kop van de tool; "Terug naar de tool" onderaan.
+- Footer: "(c) Jef De Busser" met link naar LinkedIn (`branding.footer.credit`).
