@@ -81,6 +81,7 @@ export default function Page() {
         body: JSON.stringify({
           content: analysis.content,
           findings: selectedFindings,
+          channels: analysis.channels,
         }),
       });
       const data = await res.json();
@@ -208,6 +209,7 @@ export default function Page() {
                 findingsCount={analysis.findings.filter((f) => !f.outOfScope).length}
                 summary={analysis.summary}
                 strengths={analysis.strengths}
+                channelIds={analysis.channels}
               />
               <FindingsList
                 findings={analysis.findings}

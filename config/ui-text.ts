@@ -33,6 +33,10 @@ export const uiText = {
     pastePlaceholder: "Plak hier je tekst …",
     urlPlaceholder: "https://www.voorbeeld.be/pagina",
     urlHint: "We halen de hoofdtekst van de pagina op.",
+    channelsHeading: "Deze tekst wordt gebruikt op",
+    channelsHint:
+      "Kies één of meer kanalen. De controle past zich aan: korte social copy wordt lichter beoordeeld dan een webpagina.",
+    channelsNone: "Geen kanaal gekozen — we beoordelen als webcontent.",
     analyzeButton: "Controleer huisstijl",
     analyzingButton: "Bezig met controleren …",
     charCount: "tekens",
@@ -45,6 +49,7 @@ export const uiText = {
     outOf: "/ 100",
     scoreLabel: "Score",
     strengthsHeading: "Wat al goed zit",
+    channelsLabel: "Beoordeeld voor",
     // {n} wordt vervangen door het aantal verbeterpunten.
     findingsCountOne: "1 verbeterpunt om de tekst nog sterker te maken.",
     findingsCountMany: "{n} verbeterpunten om de tekst nog sterker te maken.",

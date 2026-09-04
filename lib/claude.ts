@@ -11,6 +11,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { loadKnowledgeBase } from "@/lib/knowledge";
+import { resolveChannels, type Channel } from "@/config/channels";
 import type { AnalysisResult } from "@/lib/types";
 
 // ============================================================================
@@ -69,9 +70,33 @@ ${extra}`,
   ];
 }
 
+/**
+ * Bouwt het kanaalblok voor de prompt op basis van de gekozen kanalen
+ * (config/channels.ts). Meerdere kanalen → strengste diepte, hoogste maxFindings.
+ */
+function buildChannelBrief(chans: Channel[]): string {
+  if (chans.length === 0) return "";
+  const depth = chans.some((c) => c.depth === "volledig") ? "volledig" : "licht";
+  const maxFindings = Math.max(...chans.map((c) => c.maxFindings));
+  const lines = chans.map((c) => `- ${c.guidance}`).join("\n");
+  const depthText =
+    depth === "licht"
+      ? "DIEPTE: LICHT. Beoordeel enkel wat de lezer meteen opvalt. Details (notatie, hoofdletters, afkortingen, een enkele stroeve zin, structuurregels voor lange content) laat je passeren en zet je NIET in de lijst."
+      : "DIEPTE: VOLLEDIG. Beoordeel op alle stijlregels die voor dit kanaal relevant zijn.";
+  return `KANAAL — deze tekst wordt gebruikt op: ${chans.map((c) => c.label).join(", ")}.
+${lines}
+${depthText}
+Richtcijfer voor dit kanaal: maximaal ${maxFindings} verbeterpunten. Zit je daarboven, hou dan enkel de punten met de grootste impact over.
+Benoem in "summary" en "strengths" wat voor dít kanaal goed werkt.`;
+}
+
 /** Voert de huisstijl-analyse uit en geeft de ruwe (nog niet gescoorde) JSON terug. */
-export async function runAnalysis(content: string): Promise<AnalysisResult> {
+export async function runAnalysis(
+  content: string,
+  channelIds: string[] = [],
+): Promise<AnalysisResult> {
   const client = getClient();
+  const channelBrief = buildChannelBrief(resolveChannels(channelIds));
 
   const system = buildSystemBlocks(
     `OPDRACHT: controleer de content van de gebruiker tegen het stijlboek en geef de verbeterpunten terug.
@@ -106,9 +131,11 @@ RICHTLIJNEN:
   "middel" = een merkbaar patroon dat de tekst minder warm of minder helder maakt (verouderde woorden, passieve constructies, te lange zinnen of alinea's, dit/deze i.p.v. die/dat).
   "laag"   = vorm en detail: notatie van bedragen/getallen/data, hoofdletters, afkortingen, een enkele stroeve zin.
   Twijfel je tussen twee niveaus, kies dan het laagste.
-- Richtcijfer: maximaal 8 verbeterpunten voor een korte tekst (tot 300 woorden), maximaal 12 voor een lange. Zit je daarboven, hou dan enkel de punten met de grootste impact over.
+- Richtcijfer: maximaal 8 verbeterpunten voor een korte tekst (tot 300 woorden), maximaal 12 voor een lange. Het kanaalblok hieronder kan dat cijfer verlagen; het laagste cijfer wint.
 - Flag ALLEEN afwijkingen van regels die in het stijlboek staan. Vind je niets, geef dan "findings": [].
-- Gebruik exact de bovenstaande sleutelnamen en voeg geen extra velden toe.`,
+- Gebruik exact de bovenstaande sleutelnamen en voeg geen extra velden toe.
+
+${channelBrief}`,
   );
 
   const resp = await client.messages.create({
@@ -134,8 +161,14 @@ RICHTLIJNEN:
 export async function runRewrite(
   originalContent: string,
   selectedFindings: AnalysisResult["findings"],
+  channelIds: string[] = [],
 ): Promise<string> {
   const client = getClient();
+  const chans = resolveChannels(channelIds);
+  const channelNote =
+    chans.length > 0
+      ? `\nKANAAL: de tekst wordt gebruikt op ${chans.map((c) => c.label).join(", ")}. Respecteer wat bij dat kanaal hoort (lengte, ritme, informele toon op social, kopregels in print). Maak de tekst niet langer of formeler dan het kanaal vraagt.`
+      : "";
 
   const findingsText = selectedFindings
     .map(
@@ -153,7 +186,7 @@ ZEER BELANGRIJK:
 - Laat alle andere delen van de tekst ONGEWIJZIGD. Pas dus geen punten toe die niet in de lijst staan.
 - Behoud de oorspronkelijke betekenis en feiten. Verzin geen nieuwe feiten, cijfers of bronnen.
 - Schrijf in de Europabank-stem (mensentaal, 'u', warm en actief), maar enkel waar de geselecteerde punten dat vragen.
-- Antwoord met ENKEL de herschreven tekst (platte tekst, geen uitleg, geen markdown-codeblok, geen commentaar vooraf of nadien).`,
+- Antwoord met ENKEL de herschreven tekst (platte tekst, geen uitleg, geen markdown-codeblok, geen commentaar vooraf of nadien).${channelNote}`,
   );
 
   const resp = await client.messages.create({

@@ -41,3 +41,26 @@ werd per voorkomen apart afgestraft.
 | 2 hoog + 2 middel | 42 | 75 |
 | 4 hoog + 4 middel | 0 | 57 |
 | 8 hoog + 6 middel | 0 | 38 |
+
+---
+
+# Update: kanaalkeuze
+
+**Nieuw veld "Deze tekst wordt gebruikt op"** (`components/InputPanel.tsx`)
+- Chips voor website, nieuwsbrief, social media, e-mail/brief, print;
+  meerdere tegelijk mogelijk. Niets gekozen = website.
+
+**Kanaalconfig** (`config/channels.ts`, nieuw, zonder code aanpasbaar)
+- Per kanaal: prompt-guidance (wat telt, wat mag passeren), diepte
+  (`volledig`/`licht`), richtcijfer verbeterpunten, milderingsfactor op de score.
+- Social media: lichte controle (enkel aanspreking, toon, verboden constructies,
+  dt, merkspelling), max. 4 punten, score 40 % milder. Emoji, losse zinnen en
+  een informelere toon zijn geen afwijking.
+
+**Analyse en herschrijving** (`lib/claude.ts`, `lib/score.ts`, beide API-routes)
+- Kanaalblok gaat mee in de analyse-prompt; de herschrijving respecteert
+  lengte en toon van het kanaal.
+- Bij meerdere kanalen: strengste diepte, hoogste richtcijfer, gemiddelde
+  milderingsfactor.
+
+**Scorekaart**: toont "Beoordeeld voor: …".

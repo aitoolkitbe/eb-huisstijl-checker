@@ -52,8 +52,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "tooLong" }, { status: 413 });
     }
 
-    const analysis = await runAnalysis(content);
-    const scored = scoreAnalysis(analysis, content);
+    // Kanalen: komma-gescheiden id's uit config/channels.ts (optioneel).
+    const channelIds = String(form.get("channels") ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const analysis = await runAnalysis(content, channelIds);
+    const scored = scoreAnalysis(analysis, content, channelIds);
 
     // Stuur de geëxtraheerde content mee terug; de client heeft die nodig voor
     // de herschrijf-call (volledige context, geen geheugen tussen calls).

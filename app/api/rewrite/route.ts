@@ -5,7 +5,7 @@
  * geeft een herschreven versie terug waarin ENKEL die punten verwerkt zijn.
  * Stuurt altijd de volledige context mee (geen geheugen tussen calls).
  *
- * Body (JSON): { content: string, findings: Finding[] }
+ * Body (JSON): { content: string, findings: Finding[], channels?: string[] }
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -20,6 +20,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const content = String(body?.content ?? "").trim();
     const findings: Finding[] = Array.isArray(body?.findings) ? body.findings : [];
+    const channelIds: string[] = Array.isArray(body?.channels)
+      ? body.channels.map((c: unknown) => String(c))
+      : [];
 
     if (!content) {
       return NextResponse.json({ error: "emptyInput" }, { status: 400 });
@@ -31,7 +34,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "noneSelected" }, { status: 400 });
     }
 
-    const rewritten = await runRewrite(content, findings);
+    const rewritten = await runRewrite(content, findings, channelIds);
     return NextResponse.json({ rewritten });
   } catch (err) {
     console.error("rewrite error:", err);

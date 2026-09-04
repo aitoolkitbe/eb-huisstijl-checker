@@ -1,6 +1,7 @@
 /** Toont de compliance-score (0–100) als gauge-ring + niveau-duiding. */
 import { CheckCircle2 } from "lucide-react";
 import { uiText } from "@/config/ui-text";
+import { channels } from "@/config/channels";
 
 interface Props {
   score: number;
@@ -10,6 +11,7 @@ interface Props {
   findingsCount: number;
   summary?: string;
   strengths?: string[];
+  channelIds?: string[];
 }
 
 const toneVar: Record<Props["tone"], string> = {
@@ -27,7 +29,11 @@ export default function ScoreCard({
   findingsCount,
   summary,
   strengths = [],
+  channelIds = [],
 }: Props) {
+  const channelLabels = channels
+    .filter((c) => channelIds.includes(c.id))
+    .map((c) => c.label);
   const t = uiText.score;
   const color = toneVar[tone];
   const countText =
@@ -107,6 +113,12 @@ export default function ScoreCard({
           )}
           <p className="mt-2 text-xs" style={{ color: "var(--eb-muted)" }}>
             {countText}
+            {channelLabels.length > 0 && (
+              <>
+                {" · "}
+                {t.channelsLabel}: {channelLabels.join(", ")}
+              </>
+            )}
           </p>
         </div>
       </div>

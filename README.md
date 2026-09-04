@@ -41,6 +41,10 @@ verschillen.
 
 1. **Invoer** — drie tabs: bestand uploaden (`.docx`, `.pdf`, `.txt`), tekst
    plakken, of een URL ingeven. De server zet alles om naar platte tekst.
+   Daaronder duidt de gebruiker aan **waar de tekst gebruikt wordt** (website,
+   nieuwsbrief, social media, e-mail/brief, print — meerdere mogelijk). Die
+   keuze stuurt de diepte van de controle: korte social copy wordt licht
+   beoordeeld (enkel wat meteen opvalt), een webpagina volledig.
 2. **Controle** — de content gaat serverside naar Claude, samen met het volledige
    stijlboek (met prompt caching). Claude geeft gestructureerde JSON terug en
    flagt enkel wat het stijlboek dekt.
@@ -89,6 +93,7 @@ europabank-huisstijl-checker/
 ├── config/           ← CONFIG (zonder code aanpasbaar, becommentarieerd)
 │   ├── branding.ts              # kleuren, logo, fonts, footer
 │   ├── scoring.ts               # drempels, gewichten per impact, niveau-teksten
+│   ├── channels.ts              # kanalen: wat telt per kanaal, diepte, milderingsfactor
 │   └── ui-text.ts               # alle labels, koppen, knoppen, disclaimer
 │
 ├── lib/  · components/  · public/  · README.md  · package.json  · …
@@ -209,6 +214,14 @@ blijft de score motiverend in plaats van afstraffend.
 
 Richtwaarden staan bovenaan in `config/scoring.ts`. Wil je snel voelen wat een
 aanpassing doet, dan volstaat `npx tsx scripts/score-simulatie.ts` (geen API-call).
+
+### c2) De kanalen (`config/channels.ts`)
+
+Elk kanaal heeft een `label`, een `guidance` (gaat letterlijk mee in de prompt:
+wat telt hier, wat mag passeren), een `depth` (`volledig` of `licht`), een
+`maxFindings` (richtcijfer) en een `penaltyFactor` (0.6 = 40 % milder in de
+score). Kanaal toevoegen = blok kopiëren, uniek `id` geven, commit, push.
+Geen kanaal gekozen → `defaultChannelId` (website).
 
 ### d) De teksten / disclaimer (`config/ui-text.ts`)
 

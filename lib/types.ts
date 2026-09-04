@@ -26,6 +26,7 @@ export interface AnalysisResult {
 
 /** Verrijkte analyse met berekende score (server voegt dit toe). */
 export interface ScoredAnalysis extends AnalysisResult {
+  channels: string[]; // kanaal-id's waarvoor beoordeeld werd (zie config/channels.ts)
   score: number; // 0–100
   levelLabel: string; // niveaulabel uit scoring.ts
   levelDescription: string; // niveauduiding uit scoring.ts

@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { FileText, Type, Link2, UploadCloud, CheckCircle2 } from "lucide-react";
+import { FileText, Type, Link2, UploadCloud, CheckCircle2, Check } from "lucide-react";
 import { uiText } from "@/config/ui-text";
+import { channels } from "@/config/channels";
 
 type Mode = "upload" | "paste" | "url";
 
@@ -18,6 +19,13 @@ export default function InputPanel({ loading, onAnalyze }: Props) {
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
+
+  function toggleChannel(id: string) {
+    setSelectedChannels((cur) =>
+      cur.includes(id) ? cur.filter((c) => c !== id) : [...cur, id],
+    );
+  }
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const canSubmit =
@@ -38,6 +46,7 @@ export default function InputPanel({ loading, onAnalyze }: Props) {
       form.set("mode", "file");
       form.set("file", file);
     }
+    form.set("channels", selectedChannels.join(","));
     onAnalyze(form);
   }
 
@@ -168,6 +177,45 @@ export default function InputPanel({ loading, onAnalyze }: Props) {
           />
         </div>
       )}
+
+      {/* Kanalen */}
+      <fieldset className="mt-5">
+        <legend className="text-sm font-semibold">{t.channelsHeading}</legend>
+        <p className="mb-2.5 mt-1 text-xs" style={{ color: "var(--eb-muted)" }}>
+          {t.channelsHint}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {channels.map((c) => {
+            const active = selectedChannels.includes(c.id);
+            return (
+              <button
+                key={c.id}
+                type="button"
+                role="checkbox"
+                aria-checked={active}
+                title={c.hint}
+                onClick={() => toggleChannel(c.id)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium transition-all"
+                style={{
+                  backgroundColor: active ? "var(--eb-primary)" : "var(--eb-bg)",
+                  color: "var(--eb-ink)",
+                  border: active
+                    ? "1px solid var(--eb-ink)"
+                    : "1px solid var(--eb-border)",
+                }}
+              >
+                {active && <Check size={14} aria-hidden />}
+                {c.label}
+              </button>
+            );
+          })}
+        </div>
+        {selectedChannels.length === 0 && (
+          <p className="mt-2 text-xs" style={{ color: "var(--eb-muted)" }}>
+            {t.channelsNone}
+          </p>
+        )}
+      </fieldset>
 
       {/* Knoppen */}
       <div className="mt-5 flex items-center gap-3">
