@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     }
 
     const analysis = await runAnalysis(content);
-    const scored = scoreAnalysis(analysis);
+    const scored = scoreAnalysis(analysis, content);
 
     // Stuur de geëxtraheerde content mee terug; de client heeft die nodig voor
     // de herschrijf-call (volledige context, geen geheugen tussen calls).

@@ -53,6 +53,11 @@ STRIKTE REGELS:
 - Bronnen van het type "context" (bv. beeldtaal, voorbeelden) zijn achtergrond: gebruik ze om de juiste toon te begrijpen, maar flag beeldregels enkel als de content zelf over beeldkeuze gaat.
 - Citeer bij "rule" zo exact mogelijk de geraakte stijlregel zoals die in het stijlboek staat.
 - Wees concreet en constructief: elk punt heeft een duidelijk, toepasbaar voorstel in de Europabank-stem.
+- Bij twijfel of een fragment écht afwijkt: NIET flaggen. Liever drie punten die kloppen dan tien waarvan de helft discutabel is.
+
+TOON VAN DE FEEDBACK:
+- Je bent een collega-redacteur die de schrijver vooruit wil helpen, geen examinator. Benoem wat al goed zit, en formuleer verbeterpunten als kansen ("Zo klinkt het warmer: …"), niet als fouten ("Dit is fout").
+- Geen betuttelende of belerende taal. Kort, warm, concreet.
 
 ${extra}`,
     },
@@ -73,7 +78,10 @@ export async function runAnalysis(content: string): Promise<AnalysisResult> {
 
 Antwoord UITSLUITEND met geldige JSON (geen uitleg, geen markdown, geen code-fences), met deze structuur:
 {
-  "summary": "korte neutrale samenvatting in één zin",
+  "summary": "één zin die eerst benoemt wat de tekst goed doet en dan de belangrijkste volgende stap",
+  "strengths": [
+    "concreet punt waarop de tekst het stijlboek al goed volgt (bv. 'Consequente u-vorm, warm en direct')"
+  ],
   "findings": [
     {
       "id": "p1",
@@ -89,9 +97,16 @@ Antwoord UITSLUITEND met geldige JSON (geen uitleg, geen markdown, geen code-fen
 }
 
 RICHTLIJNEN:
+- "strengths": 2 tot 4 concrete sterke punten, telkens gekoppeld aan een stijlregel die de tekst al goed toepast. Ook bij een zwakke tekst zoek je minstens 2 oprechte sterke punten. Geen holle complimenten.
 - Geef elk verbeterpunt een uniek id (p1, p2, p3, ...).
 - "fragment" moet een letterlijk fragment uit de content zijn (kort, maar herkenbaar).
-- "severity" = de IMPACT op de huisstijl: "hoog" = duidelijke kernregel (bv. stem, aanspreking, verboden constructie); "middel" = merkbaar aandachtspunt; "laag" = klein/vorm.
+- BUNDEL herhalingen: komt dezelfde afwijking van dezelfde stijlregel meerdere keren voor (bv. vijf keer 'dit' i.p.v. 'die', drie keer 'cliënt'), maak daar dan ÉÉN verbeterpunt van. Neem het duidelijkste voorbeeld als "fragment" en vermeld in "why" hoe vaak het patroon voorkomt. Nooit één punt per voorkomen.
+- "severity" = de IMPACT op de huisstijl, wees hier zuinig mee:
+  "hoog"   = de lezer voelt meteen dat dit niet Europabank is: verkeerde aanspreking (jij/je waar u hoort of omgekeerd), afstandelijke of belerende toon over de hele tekst, een verboden constructie, een dt-fout, foute merkspelling (Europabank, eb online, E-broker).
+  "middel" = een merkbaar patroon dat de tekst minder warm of minder helder maakt (verouderde woorden, passieve constructies, te lange zinnen of alinea's, dit/deze i.p.v. die/dat).
+  "laag"   = vorm en detail: notatie van bedragen/getallen/data, hoofdletters, afkortingen, een enkele stroeve zin.
+  Twijfel je tussen twee niveaus, kies dan het laagste.
+- Richtcijfer: maximaal 8 verbeterpunten voor een korte tekst (tot 300 woorden), maximaal 12 voor een lange. Zit je daarboven, hou dan enkel de punten met de grootste impact over.
 - Flag ALLEEN afwijkingen van regels die in het stijlboek staan. Vind je niets, geef dan "findings": [].
 - Gebruik exact de bovenstaande sleutelnamen en voeg geen extra velden toe.`,
   );
@@ -134,6 +149,7 @@ export async function runRewrite(
 
 ZEER BELANGRIJK:
 - Pas UITSLUITEND de hieronder opgesomde, geselecteerde verbeterpunten toe.
+- Een verbeterpunt beschrijft een PATROON, niet enkel het geciteerde fragment. Komt hetzelfde patroon (dezelfde stijlregel) elders in de tekst ook voor, pas het dan overal consequent toe.
 - Laat alle andere delen van de tekst ONGEWIJZIGD. Pas dus geen punten toe die niet in de lijst staan.
 - Behoud de oorspronkelijke betekenis en feiten. Verzin geen nieuwe feiten, cijfers of bronnen.
 - Schrijf in de Europabank-stem (mensentaal, 'u', warm en actief), maar enkel waar de geselecteerde punten dat vragen.
@@ -210,8 +226,16 @@ export function parseAnalysisJson(raw: string): AnalysisResult {
     };
   });
 
+  const strengths = Array.isArray(obj.strengths)
+    ? obj.strengths
+        .map((x) => String(x ?? "").trim())
+        .filter((x) => x.length > 0)
+        .slice(0, 4)
+    : [];
+
   return {
     summary: typeof obj.summary === "string" ? obj.summary : undefined,
+    strengths,
     findings,
   };
 }

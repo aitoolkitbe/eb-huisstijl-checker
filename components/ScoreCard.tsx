@@ -1,4 +1,5 @@
 /** Toont de compliance-score (0–100) als gauge-ring + niveau-duiding. */
+import { CheckCircle2 } from "lucide-react";
 import { uiText } from "@/config/ui-text";
 
 interface Props {
@@ -7,6 +8,8 @@ interface Props {
   levelDescription: string;
   tone: "positive" | "warn" | "caution" | "danger";
   findingsCount: number;
+  summary?: string;
+  strengths?: string[];
 }
 
 const toneVar: Record<Props["tone"], string> = {
@@ -22,9 +25,17 @@ export default function ScoreCard({
   levelDescription,
   tone,
   findingsCount,
+  summary,
+  strengths = [],
 }: Props) {
   const t = uiText.score;
   const color = toneVar[tone];
+  const countText =
+    findingsCount === 0
+      ? t.findingsCountNone
+      : findingsCount === 1
+        ? t.findingsCountOne
+        : t.findingsCountMany.replace("{n}", String(findingsCount));
 
   // Gauge-ring berekening.
   const radius = 52;
@@ -89,16 +100,48 @@ export default function ScoreCard({
           <p className="mt-2 text-sm" style={{ color: "var(--eb-ink)" }}>
             {levelDescription}
           </p>
+          {summary && (
+            <p className="mt-1 text-sm" style={{ color: "var(--eb-muted)" }}>
+              {summary}
+            </p>
+          )}
           <p className="mt-2 text-xs" style={{ color: "var(--eb-muted)" }}>
-            {findingsCount === 0
-              ? "Geen aandachtspunten binnen de huidige regelset."
-              : `${findingsCount} aandachtspunt${findingsCount === 1 ? "" : "en"} binnen de huidige regelset.`}
-          </p>
-          <p className="mt-2 text-xs font-medium" style={{ color: "var(--eb-sev-hoog)" }}>
-            {t.disclaimerInline}
+            {countText}
           </p>
         </div>
       </div>
+
+      {/* Wat al goed zit */}
+      {strengths.length > 0 && (
+        <div
+          className="mt-5 p-4"
+          style={{ backgroundColor: "var(--eb-surface)" }}
+        >
+          <h3
+            className="mb-2 text-[11px] font-bold uppercase tracking-wide"
+            style={{ color: "var(--eb-score-positive)" }}
+          >
+            {t.strengthsHeading}
+          </h3>
+          <ul className="space-y-1.5">
+            {strengths.map((s, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm">
+                <CheckCircle2
+                  size={16}
+                  aria-hidden
+                  className="mt-0.5 shrink-0"
+                  style={{ color: "var(--eb-score-positive)" }}
+                />
+                <span style={{ color: "var(--eb-ink)" }}>{s}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <p className="mt-4 text-xs" style={{ color: "var(--eb-muted)" }}>
+        {t.disclaimerInline}
+      </p>
     </section>
   );
 }

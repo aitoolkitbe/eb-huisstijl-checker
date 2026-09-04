@@ -45,9 +45,12 @@ verschillen.
    stijlboek (met prompt caching). Claude geeft gestructureerde JSON terug en
    flagt enkel wat het stijlboek dekt.
 3. **Resultaat**, in vaste volgorde:
-   1. **Score 0–100** + niveau-duiding.
-   2. **Genummerde verbeterpunten** (titel, geraakte stijlregel, exact fragment,
-      waarom het afwijkt, voorstel, impact), gesorteerd op impact (hoog → laag).
+   1. **Score 0–100** + niveau-duiding, een korte samenvatting en **"Wat al
+      goed zit"** (2–4 sterke punten, gekoppeld aan het stijlboek).
+   2. **Genummerde verbeterpunten** (titel, stijlregel, exact fragment,
+      waarom dit helpt, voorstel, impact), gesorteerd op impact (hoog → laag).
+      Herhaalde patronen (bv. vijf keer 'dit' i.p.v. 'die') worden **gebundeld
+      tot één punt**; de herschrijving past het patroon dan overal toe.
    3. **Checkbox** per punt, standaard aangevinkt.
    4. Knop **"Genereer verbeterde versie"** — herschrijft *pas dan*, en
       uitsluitend met de aangevinkte punten. Niet-aangevinkte punten blijven
@@ -191,11 +194,21 @@ met systeem-fallback) en footertekst ("Een tool van De Content Studio x June20")
 ### c) De scoring (`config/scoring.ts`)
 
 Bepaalt hoe de score (0–100) wordt berekend en welke duiding erbij hoort.
+De score is bewust **niet lineair**: de eerste verbeterpunten wegen het zwaarst,
+elk volgend punt weegt minder (afvlakking), en lange teksten krijgen een
+lengtecorrectie. Zo landt een tekst met veel kleine opmerkingen niet op 0 en
+blijft de score motiverend in plaats van afstraffend.
 
-- **Strenger/soepeler** — pas `weights` aan: punten die per verbeterpunt worden
-  afgetrokken, per impact (`hoog`, `middel`, `laag`).
+- **Strenger/soepeler** — pas `weights` aan: ruwe aftrek per verbeterpunt, per
+  impact (`hoog`, `middel`, `laag`).
+- **Lange teksten milder/strenger** — pas `referenceWords` aan (tot dat aantal
+  woorden telt elk punt volledig mee; daarboven evenredig minder).
+- **Hoe diep de score kan zakken** — pas `softCap` aan (laagste score = 100 − softCap).
 - **Andere niveaugrenzen** — pas `minScore` per niveau aan in `levels`.
 - **Andere duiding** — herschrijf `label` en `description` per niveau.
+
+Richtwaarden staan bovenaan in `config/scoring.ts`. Wil je snel voelen wat een
+aanpassing doet, dan volstaat `npx tsx scripts/score-simulatie.ts` (geen API-call).
 
 ### d) De teksten / disclaimer (`config/ui-text.ts`)
 

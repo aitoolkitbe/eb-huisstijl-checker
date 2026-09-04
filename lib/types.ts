@@ -20,7 +20,8 @@ export interface Finding {
 /** Ruwe analyse zoals Claude ze als JSON teruggeeft. */
 export interface AnalysisResult {
   findings: Finding[];
-  summary?: string; // optionele korte samenvatting van Claude
+  summary?: string; // korte, waarderende samenvatting van Claude
+  strengths?: string[]; // wat al goed zit volgens het stijlboek (2–4 punten)
 }
 
 /** Verrijkte analyse met berekende score (server voegt dit toe). */

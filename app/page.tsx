@@ -206,6 +206,8 @@ export default function Page() {
                 levelDescription={analysis.levelDescription}
                 tone={analysis.levelTone}
                 findingsCount={analysis.findings.filter((f) => !f.outOfScope).length}
+                summary={analysis.summary}
+                strengths={analysis.strengths}
               />
               <FindingsList
                 findings={analysis.findings}

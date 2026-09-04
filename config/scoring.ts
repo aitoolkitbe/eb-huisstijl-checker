@@ -8,16 +8,30 @@
  *  bevat zelf geen drempels of teksten.
  *
  *  Hoe werkt de score?
- *   - De analyse levert een lijst verbeterpunten op, elk met een impact:
- *     "hoog", "middel" of "laag".
- *   - Elk verbeterpunt trekt punten af, volgens 'weights' hieronder.
- *   - Start is 100. Score = max(0, 100 − som van de aftrekpunten).
- *   - Bij welke score welk niveau hoort, bepaalt 'levels'.
+ *   1. De analyse levert verbeterpunten op, elk met een impact:
+ *      "hoog", "middel" of "laag". Elk punt telt aftrekpunten volgens 'weights'.
+ *   2. LENGTECORRECTIE — een lange tekst heeft van nature meer verbeterpunten
+ *      dan een korte. Boven 'referenceWords' woorden wordt de aftrek
+ *      evenredig verkleind (dubbel zo lang = half zoveel aftrek per punt).
+ *   3. AFVLAKKING — de aftrek telt niet lineair door. De eerste punten wegen
+ *      het zwaarst, elk volgend punt weegt iets minder. Zo landt een tekst met
+ *      veel kleine opmerkingen niet op 0 en blijft de score zinvol.
+ *      De score kan nooit lager dan (100 − softCap).
+ *   4. 'levels' bepaalt welk niveau en welke duiding bij de score hoort.
+ *
+ *  Richtwaarden met de instellingen hieronder (tekst ≤ 300 woorden):
+ *    1 hoog punt            → 91
+ *    2 hoog + 2 middel      → 75
+ *    4 hoog + 4 middel      → 57
+ *    8 hoog + 6 middel      → 38
+ *  (Ter vergelijking, de oude lineaire formule: 4 hoog + 4 middel → 0.)
  *
  *  Hoe pas je iets aan?
- *   - Strenger maken? Verhoog de getallen in 'weights'.
+ *   - Strenger/milder? Verhoog/verlaag de getallen in 'weights'.
+ *   - Lange teksten milder? Verlaag 'referenceWords'.
+ *   - Sneller afvlakken? Verlaag 'softCap' (score zakt dan minder diep).
  *   - Andere niveaugrenzen? Pas 'minScore' in 'levels' aan.
- *   - Andere duiding? Herschrijf de 'label' en 'description' per niveau.
+ *   - Andere duiding? Herschrijf 'label' en 'description' per niveau.
  *   Commit + push → Vercel deployt automatisch. Geen code nodig.
  * ============================================================================
  */
@@ -29,49 +43,57 @@ export const scoring = {
   startScore: 100,
 
   // --- Gewichten per impact ------------------------------------------------
-  // Aantal punten dat per verbeterpunt van de score wordt afgetrokken,
-  // naargelang de impact op de huisstijl.
+  // Ruwe aftrekpunten per verbeterpunt, naargelang de impact op de huisstijl.
   weights: {
-    hoog: 20,
-    middel: 9,
-    laag: 4,
+    hoog: 10,
+    middel: 5,
+    laag: 2,
   } satisfies Record<Severity, number>,
 
-  // Maximale aftrek voor de hele tekst (ondergrens van de score blijft 0).
-  maxPenalty: 100,
+  // --- Lengtecorrectie -----------------------------------------------------
+  // Tot dit aantal woorden telt elk punt volledig mee. Daarboven wordt de
+  // totale aftrek vermenigvuldigd met (referenceWords / aantal woorden).
+  referenceWords: 300,
+
+  // --- Afvlakking ----------------------------------------------------------
+  // Maximale totale aftrek. De werkelijke aftrek nadert deze waarde geleidelijk:
+  //   aftrek = softCap × (1 − e^(−ruweAftrek / softCap))
+  // Bij softCap 85 is de laagst mogelijke score dus 15.
+  softCap: 85,
 
   // --- Niveaus + duiding ---------------------------------------------------
   // Wordt van hoog naar laag doorlopen; het eerste niveau waarvan de score
   // >= minScore is, wordt gekozen. Houd de lijst dus aflopend gesorteerd.
   // 'tone' bepaalt de kleur van de score-ring (zie config/branding.ts -> colors.score).
+  // De duiding is bewust motiverend: benoem wat goed zit en wat de volgende stap is.
   levels: [
     {
-      minScore: 85,
+      minScore: 80,
       tone: "positive",
       label: "Sterk op stijl",
       description:
-        "De content sluit goed aan bij de Europabank-huisstijl. Loop de verbeterpunten na en laat altijd een menselijke eindredactie gebeuren.",
+        "Deze tekst zit stevig in de Europabank-stem. De verbeterpunten hieronder zijn de laatste puntjes op de i.",
     },
     {
       minScore: 60,
       tone: "warn",
-      label: "Enkele verbeterpunten",
+      label: "Goed op weg",
       description:
-        "De tekst zit grotendeels goed, maar er zijn punten die de huisstijl versterken. Bekijk vooral de punten met hoge impact.",
+        "De basis klopt. Met een paar gerichte aanpassingen — vooral de punten met hoge impact — zit deze tekst helemaal op stijl.",
     },
     {
-      minScore: 30,
+      minScore: 40,
       tone: "caution",
-      label: "Meerdere afwijkingen",
+      label: "Stevige basis, nog werk",
       description:
-        "De content wijkt op verschillende punten af van de huisstijl. Een herwerking is aangewezen.",
+        "Er zit al veel goeds in. Een aantal terugkerende patronen trekt de tekst nog weg van de huisstijl; die pak je best eerst aan.",
     },
     {
       minScore: 0,
       tone: "danger",
-      label: "Grondige herwerking nodig",
+      label: "Herwerking loont",
       description:
-        "De tekst wijkt sterk af van de huisstijl. Herwerk de content grondig op basis van de verbeterpunten.",
+        "Deze tekst wint veel bij een herwerking in de Europabank-stem. Begin bij de punten met hoge impact — de verbeterde versie hieronder helpt je op weg.",
     },
   ],
 } as const;

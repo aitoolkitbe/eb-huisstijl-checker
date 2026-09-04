@@ -44,19 +44,24 @@ export const uiText = {
     heading: "2. Huisstijl-score",
     outOf: "/ 100",
     scoreLabel: "Score",
-    disclaimerInline: "Een hoge score vervangt geen menselijke eindredactie.",
+    strengthsHeading: "Wat al goed zit",
+    // {n} wordt vervangen door het aantal verbeterpunten.
+    findingsCountOne: "1 verbeterpunt om de tekst nog sterker te maken.",
+    findingsCountMany: "{n} verbeterpunten om de tekst nog sterker te maken.",
+    findingsCountNone: "Geen verbeterpunten binnen het stijlboek.",
+    disclaimerInline: "De score is een hulpmiddel; een menselijke eindredactie blijft de laatste stap.",
   },
 
   // --- Resultaat: verbeterpunten ------------------------------------------
   findings: {
     heading: "3. Verbeterpunten",
-    none: "Er werden geen afwijkingen van de huisstijl gedetecteerd. Een menselijke eindredactie blijft aanbevolen.",
-    sortedNote: "Gesorteerd op impact (hoog → laag).",
+    none: "Mooi: binnen het stijlboek vonden we niets om te verbeteren. Een menselijke eindredactie blijft de laatste stap.",
+    sortedNote: "Gesorteerd op impact (hoog → laag). Herhaalde patronen zijn gebundeld tot één punt.",
     labels: {
-      rule: "Geraakte stijlregel",
+      rule: "Stijlregel",
       fragment: "Tekstfragment",
-      why: "Waarom het afwijkt",
-      suggestion: "Voorstel",
+      why: "Waarom dit helpt",
+      suggestion: "Zo kan het",
       severity: "Impact",
       outOfScope: "Buiten het stijlboek",
     },
